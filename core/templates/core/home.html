@@ -1,0 +1,62 @@
+{% extends 'core/base.html' %}
+{% block title %}Home{% endblock title %}
+{% block main_content %}
+
+<section class="container">
+
+    <div class="row justify-content-around text-center mt-5">
+        <div class="col-sm-8">
+            <h3 style="color: white;font-style: italic;font-weight: bolder;">Python CRUD App Using Django !</h3>
+        </div>
+    </div>
+
+    <div class="row justify-content-around mt-4">
+        <div class="col-sm-8">
+            <a href="{% url 'Add_Stud' %}" style="font-weight: bolder;font-style: italic;margin-left: -220px;" class="btn btn-secondary">Add Student</a>
+        </div>
+    </div>    
+
+    <div class="row justify-content-around mt-3">
+        <div class="col-sm-12">
+            <table class="table table-dark table-hover">
+                <thead>
+                    <tr>
+                      <th scope="col">Sr.</th>
+                      <th scope="col">Name</th>
+                      <th scope="col">Roll</th>
+                      <th scope="col">City</th>
+                      <th scope="col">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for stud in studdata %}
+                        <tr>
+                            <th scope="row">{{forloop.counter}}</th>
+                            <td>{{stud.name}}</td>
+                            <td>{{stud.roll}}</td>
+                            <td>{{stud.city}}</td>
+                            <td class="aline-inline">
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <form action="{% url 'Delete_Stud' %}" method="POST">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="id" value="{{stud.id}}">
+                                                <input type="submit" value="Delete" class="btn btn-danger btn-sm">
+                                            </form>
+                                        </td>
+                                        <td>
+                                            <a href="{% url 'Update_Student' stud.id %}" class="btn btn-sm btn-info">Edit</a>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                  </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+{% endblock main_content %}
